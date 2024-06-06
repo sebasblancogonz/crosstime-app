@@ -8,7 +8,7 @@ import Button from "../components/Button";
 import TextInput from "../components/TextInput";
 import BackButton from "../components/BackButton";
 import { theme } from "../core/theme";
-import { Navigation } from "../types";
+import { Navigation, RegisterRequest, AuthenticationResponse } from "../types";
 import {
   emailValidator,
   passwordValidator,
@@ -19,19 +19,7 @@ type Props = {
   navigation: Navigation;
 };
 
-type RegisterRequest = {
-  username: string;
-  email: string;
-  password: string;
-  role: string;
-};
-
-type RegisterResponse = {
-  accessToken: string;
-  refreshToken: string;
-};
-
-const RegisterScreen = ({ navigation }: Props) => {
+const Register = ({ navigation }: Props) => {
   const [name, setName] = useState({ value: "", error: "" });
   const [email, setEmail] = useState({ value: "", error: "" });
   const [password, setPassword] = useState({ value: "", error: "" });
@@ -59,7 +47,7 @@ const RegisterScreen = ({ navigation }: Props) => {
       role: "USER",
     };
 
-    fetch("https://localhost:8080/api/v1/auth/register", {
+    fetch("http://192.168.100.3:8080/api/v1/auth/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -67,7 +55,7 @@ const RegisterScreen = ({ navigation }: Props) => {
       body: JSON.stringify(registerRequest),
     })
       .then((response) => response.json())
-      .then((data: RegisterResponse) => {
+      .then((data: AuthenticationResponse) => {
         _storeData("accessToken", data.accessToken);
         _storeData("refreshToken", data.refreshToken);
       })
@@ -80,7 +68,7 @@ const RegisterScreen = ({ navigation }: Props) => {
 
   return (
     <Background>
-      <BackButton goBack={() => navigation.navigate("HomeScreen")} />
+      <BackButton goBack={() => navigation.navigate("Home")} />
 
       <Logo />
 
@@ -123,7 +111,7 @@ const RegisterScreen = ({ navigation }: Props) => {
 
       <View style={styles.row}>
         <Text style={styles.label}>Already have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate("LoginScreen")}>
+        <TouchableOpacity onPress={() => navigation.navigate("Login")}>
           <Text style={styles.link}>Login</Text>
         </TouchableOpacity>
       </View>
@@ -135,9 +123,7 @@ const styles = StyleSheet.create({
   label: {
     color: theme.colors.secondary,
   },
-  button: {
-    marginTop: 24,
-  },
+  button: {},
   row: {
     flexDirection: "row",
     marginTop: 4,
@@ -148,4 +134,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default memo(RegisterScreen);
+export default memo(Register);

@@ -14,7 +14,7 @@ type Props = {
   navigation: Navigation;
 };
 
-const ForgotPasswordScreen = ({ navigation }: Props) => {
+const ForgotPassword = ({ navigation }: Props) => {
   const [email, setEmail] = useState({ value: "", error: "" });
 
   const _onSendPressed = () => {
@@ -25,12 +25,12 @@ const ForgotPasswordScreen = ({ navigation }: Props) => {
       return;
     }
 
-    navigation.navigate("LoginScreen");
+    navigation.navigate("Login");
   };
 
   return (
     <Background>
-      <BackButton goBack={() => navigation.navigate("LoginScreen")} />
+      <BackButton goBack={() => navigation.navigate("Login")} />
 
       <Logo />
 
@@ -54,7 +54,7 @@ const ForgotPasswordScreen = ({ navigation }: Props) => {
 
       <TouchableOpacity
         style={styles.back}
-        onPress={() => navigation.navigate("LoginScreen")}
+        onPress={() => navigation.navigate("Login")}
       >
         <Text style={styles.label}>← Back to login</Text>
       </TouchableOpacity>
@@ -65,15 +65,12 @@ const ForgotPasswordScreen = ({ navigation }: Props) => {
 const styles = StyleSheet.create({
   back: {
     width: "100%",
-    marginTop: 12,
   },
-  button: {
-    marginTop: 12,
-  },
+  button: {},
   label: {
     color: theme.colors.secondary,
     width: "100%",
   },
 });
 
-export default memo(ForgotPasswordScreen);
+export default memo(ForgotPassword);

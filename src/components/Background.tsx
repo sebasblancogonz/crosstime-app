@@ -13,7 +13,7 @@ const Background = ({ children }: Props) => (
   <ImageBackground
     source={require("../assets/background.jpg")}
     resizeMode="cover"
-    imageStyle={{ opacity: 0.5 }}
+    imageStyle={{ opacity: 0.2 }}
     style={styles.background}
   >
     <KeyboardAvoidingView style={styles.container} behavior="padding">
@@ -28,13 +28,9 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   container: {
-    flex: 1,
-    padding: 20,
     width: "100%",
-    maxWidth: 340,
     alignSelf: "center",
     alignItems: "center",
-    justifyContent: "center",
   },
 });
 
