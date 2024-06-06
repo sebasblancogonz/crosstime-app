@@ -11,6 +11,7 @@ import { emailValidator, getToken, passwordValidator } from "../core/utils";
 import { Navigation, LoginRequest, AuthenticationResponse } from "../types";
 import { useAuth } from "../context/AuthContext";
 import Paragraph from "../components/Paragraph";
+import { ScrollView } from "react-native-gesture-handler";
 
 type Props = {
   navigation: Navigation;
@@ -43,14 +44,16 @@ const Login = ({ navigation }: Props) => {
     <Background>
       <BackButton goBack={() => navigation.navigate("Home")} />
 
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
         <Logo />
+
         <View style={styles.form}>
           <View style={{ marginBottom: 17 }}>
             <Paragraph>Welcome back, athlete!</Paragraph>
           </View>
           <TextInput
             style={styles.input}
+            placeholderTextColor={theme.colors.primary}
             placeholder="Email"
             autoComplete="email"
             returnKeyType="next"
@@ -64,6 +67,7 @@ const Login = ({ navigation }: Props) => {
           />
 
           <TextInput
+            placeholderTextColor={theme.colors.primary}
             style={styles.input}
             placeholder="Password"
             returnKeyType="done"
@@ -82,21 +86,42 @@ const Login = ({ navigation }: Props) => {
             Login
           </Button>
         </View>
-      </View>
 
-      <View style={styles.row}>
-        <View style={{ flexDirection: "row", alignSelf: "flex-end" }}>
-          <Text style={styles.label}>Don’t have an account? </Text>
-          <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-            <Text style={styles.link}>Sign up</Text>
-          </TouchableOpacity>
+        <View style={styles.rowContainer}>
+          <View style={styles.row}>
+            <View style={styles.footer}>
+              <View style={styles.footerElement}>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("ForgotPassword")}
+                >
+                  <Text style={styles.link}>Forgot your password?</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.footerElement}>
+                <View style={{ flexDirection: "row", marginTop: 17 }}>
+                  <Text style={styles.label}>Don’t have an account? </Text>
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate("Register")}
+                  >
+                    <Text style={styles.link}>Sign up</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </Background>
   );
 };
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 20,
+  },
   forgotPassword: {
     width: "100%",
     alignItems: "flex-end",
@@ -104,34 +129,43 @@ const styles = StyleSheet.create({
   },
   rowContainer: {
     flex: 1,
-    backgroundColor: "black",
+    justifyContent: "flex-end",
+    marginBottom: 24,
   },
   row: {
     width: "100%",
-    height: "auto",
+    height: 104,
     flexDirection: "row",
+    justifyContent: "center",
   },
   label: {
     color: theme.colors.secondary,
   },
   link: {
-    fontWeight: "bold",
+    fontWeight: "500",
     color: theme.colors.link,
   },
   container: {
-    marginTop: 140,
+    flex: 1,
+    justifyContent: "center",
     width: "100%",
-    display: "flex",
   },
   input: {
-    display: "flex",
     marginBottom: 17,
   },
   form: {
-    marginTop: 79,
     width: 328,
+    marginTop: 79,
     margin: "auto",
-    display: "flex",
+  },
+  footer: {
+    flexDirection: "column",
+    width: "100%",
+    alignSelf: "flex-end",
+    marginBottom: 24,
+  },
+  footerElement: {
+    alignSelf: "center",
   },
   submitButton: {
     width: 143,

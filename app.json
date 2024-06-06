@@ -33,7 +33,8 @@
         {
           "faceIDPermission": "Allow CrossTime to access your Face ID biometric data."
         }
-      ]
+      ],
+      "expo-font"
     ]
   }
 }

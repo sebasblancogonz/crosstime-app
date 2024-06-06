@@ -14,6 +14,8 @@ import {
   passwordValidator,
   nameValidator,
 } from "../core/utils";
+import Paragraph from "../components/Paragraph";
+import { ScrollView } from "react-native-gesture-handler";
 
 type Props = {
   navigation: Navigation;
@@ -70,67 +72,148 @@ const Register = ({ navigation }: Props) => {
     <Background>
       <BackButton goBack={() => navigation.navigate("Home")} />
 
-      <Logo />
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <Logo />
 
-      <Header>Create Account</Header>
+        <View style={styles.form}>
+          <View style={{ marginBottom: 17 }}>
+            <Paragraph>Join us, push your limits</Paragraph>
+          </View>
+          <TextInput
+            style={styles.input}
+            placeholderTextColor={theme.colors.primary}
+            placeholder="Username"
+            returnKeyType="next"
+            value={name.value}
+            onChangeText={(text) => setName({ value: text, error: "" })}
+            error={!!name.error}
+            errorText={name.error}
+          />
 
-      <TextInput
-        label="Username"
-        returnKeyType="next"
-        value={name.value}
-        onChangeText={(text) => setName({ value: text, error: "" })}
-        error={!!name.error}
-        errorText={name.error}
-      />
+          <TextInput
+            style={styles.input}
+            placeholderTextColor={theme.colors.primary}
+            placeholder="Email"
+            returnKeyType="next"
+            value={email.value}
+            onChangeText={(text) => setEmail({ value: text, error: "" })}
+            error={!!email.error}
+            errorText={email.error}
+            autoCapitalize="none"
+            textContentType="emailAddress"
+            keyboardType="email-address"
+          />
 
-      <TextInput
-        label="Email"
-        returnKeyType="next"
-        value={email.value}
-        onChangeText={(text) => setEmail({ value: text, error: "" })}
-        error={!!email.error}
-        errorText={email.error}
-        autoCapitalize="none"
-        textContentType="emailAddress"
-        keyboardType="email-address"
-      />
+          <TextInput
+            style={styles.input}
+            placeholderTextColor={theme.colors.primary}
+            placeholder="Password"
+            returnKeyType="done"
+            value={password.value}
+            onChangeText={(text) => setPassword({ value: text, error: "" })}
+            error={!!password.error}
+            errorText={password.error}
+            secureTextEntry
+          />
 
-      <TextInput
-        label="Password"
-        returnKeyType="done"
-        value={password.value}
-        onChangeText={(text) => setPassword({ value: text, error: "" })}
-        error={!!password.error}
-        errorText={password.error}
-        secureTextEntry
-      />
+          <TextInput
+            style={styles.input}
+            placeholderTextColor={theme.colors.primary}
+            placeholder="Repeat password"
+            returnKeyType="done"
+            value={password.value}
+            onChangeText={(text) => setPassword({ value: text, error: "" })}
+            error={!!password.error}
+            errorText={password.error}
+            secureTextEntry
+          />
 
-      <Button mode="contained" onPress={_onSignUpPressed} style={styles.button}>
-        Sign Up
-      </Button>
+          <Button
+            mode="contained"
+            onPress={_onSignUpPressed}
+            style={styles.submitButton}
+          >
+            Sign Up
+          </Button>
+        </View>
 
-      <View style={styles.row}>
-        <Text style={styles.label}>Already have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-          <Text style={styles.link}>Login</Text>
-        </TouchableOpacity>
-      </View>
+        <View style={styles.rowContainer}>
+          <View style={styles.row}>
+            <View style={styles.footer}>
+              <View style={styles.footerElement}>
+                <View style={{ flexDirection: "row", marginTop: 17 }}>
+                  <Text style={styles.label}>Already have an account? </Text>
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate("Login")}
+                  >
+                    <Text style={styles.link}>Sign in</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </ScrollView>
     </Background>
   );
 };
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 20,
+  },
   label: {
     color: theme.colors.secondary,
   },
-  button: {},
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    width: "100%",
+  },
+  input: {
+    marginBottom: 17,
+  },
+  form: {
+    width: 328,
+    marginTop: 79,
+    margin: "auto",
+  },
+  logo: {
+    marginTop: 140,
+  },
+  rowContainer: {
+    flex: 1,
+    justifyContent: "flex-end",
+    marginBottom: 24,
+  },
   row: {
+    width: "100%",
+    height: 104,
     flexDirection: "row",
-    marginTop: 4,
+    justifyContent: "center",
   },
   link: {
-    fontWeight: "bold",
-    color: theme.colors.primary,
+    fontWeight: "500",
+    color: theme.colors.link,
+  },
+  footer: {
+    flexDirection: "column",
+    width: "100%",
+    alignSelf: "flex-end",
+    marginBottom: 24,
+  },
+  footerElement: {
+    alignSelf: "center",
+  },
+  submitButton: {
+    width: 143,
+    height: 44,
+    alignSelf: "flex-end",
+    borderRadius: 6,
+    backgroundColor: theme.colors.primary,
   },
 });
 

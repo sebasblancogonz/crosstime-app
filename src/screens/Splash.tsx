@@ -3,6 +3,7 @@ import Background from "../components/Background";
 import Logo from "../components/Logo";
 import Button from "../components/Button";
 import { Navigation } from "../types";
+import { View } from "react-native";
 
 type Props = {
   navigation: Navigation;
@@ -11,7 +12,6 @@ type Props = {
 const Splash = ({ navigation }: Props) => (
   <Background>
     <Logo />
-
     <Button mode="contained" onPress={() => navigation.navigate("Login")}>
       Login
     </Button>

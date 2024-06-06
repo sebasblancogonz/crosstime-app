@@ -12,5 +12,7 @@ export const theme = {
     darkBackground: "#272727",
     notActiveNavDark: "#D9D9D9",
     lightBackground: "#FEFEFE",
+    selectedDate: "#FFF0F0",
+    selectedDateText: "#DE496E",
   },
 };

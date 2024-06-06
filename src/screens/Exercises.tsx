@@ -30,7 +30,7 @@ const Exercises = () => {
       : setShowExercises(true);
   };
   return (
-    <Background>
+    <Background solid={true}>
       <Button mode="contained" onPress={_showExercises}>
         Show Exercises
       </Button>

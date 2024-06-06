@@ -4,15 +4,18 @@ import { useAuth } from "./src/context/AuthContext";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Tabs from "./src/navigation/Tabs";
-import { Login, Register, ForgotPassword, Splash } from "./src/screens";
+import { Login, Register, ForgotPassword } from "./src/screens";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <AuthProvider>
-      <Layout />
-    </AuthProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <AuthProvider>
+        <Layout />
+      </AuthProvider>
+    </GestureHandlerRootView>
   );
 }
 
@@ -25,17 +28,12 @@ export const Layout = () => {
         <Tabs />
       ) : (
         <Stack.Navigator
-          initialRouteName="Splash"
+          initialRouteName="Login"
           screenOptions={{
             headerShown: false,
           }}
         >
           <>
-            <Stack.Screen
-              name="Splash"
-              options={{ title: "Home" }}
-              component={Splash}
-            />
             <Stack.Screen
               name="Register"
               options={{ title: "Sign Up" }}

@@ -11,7 +11,7 @@ type Props = {
 };
 
 const Home = ({ navigation }: Props) => (
-  <Background>
+  <Background solid={true}>
     <Logo />
   </Background>
 );

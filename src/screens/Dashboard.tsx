@@ -22,7 +22,7 @@ const Dashboard = ({ navigation }: Props) => {
   };
 
   return (
-    <Background>
+    <Background solid={true}>
       <Logo />
       <Header>Let's start</Header>
       <Paragraph>

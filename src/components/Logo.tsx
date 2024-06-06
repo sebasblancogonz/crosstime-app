@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { Dimensions, Image, StyleSheet } from "react-native";
+import { Dimensions, Image, StyleSheet, View } from "react-native";
 
 const Logo = () => (
   <Image
@@ -13,7 +13,9 @@ const styles = StyleSheet.create({
     width: 174,
     height: 122,
     resizeMode: "contain",
-    margin: "auto",
+    display: "flex",
+    alignSelf: "center",
+    marginTop: 140,
   },
 });
 
