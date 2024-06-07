@@ -1,60 +1,87 @@
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 import Background from "../components/Background";
 import { Navigation } from "../types";
-import { StyleSheet, View } from "react-native";
+import {
+  ImageBackground,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Text } from "react-native-paper";
 import { useFonts, Inter_400Regular } from "@expo-google-fonts/inter";
 import { theme } from "../core/theme";
 import { ScrollView } from "react-native-gesture-handler";
 import BackButton from "../components/BackButton";
+import PlusIcon from "../components/icons/Plus";
+import MinusIcon from "../components/icons/Minus";
+import Day from "../components/scheduler/dayPicker/Day";
+import Days from "../components/scheduler/dayPicker/Days";
 
 type Props = {
   navigation: Navigation;
 };
 
 const Scheduler = ({ navigation }: Props) => {
+  const [dateSelected, setDateSelected] = useState(new Date());
+
   let [fontsLoaded] = useFonts({
     Inter_400Regular,
   });
+
+  const dateObjects = [
+    new Date("2024-06-01"),
+    new Date("2024-06-02"),
+    new Date("2024-06-03"),
+    new Date("2024-06-04"),
+    new Date("2024-06-05"),
+    new Date("2024-06-06"),
+    new Date("2024-06-07"),
+    new Date("2024-06-08"),
+    new Date("2024-06-09"),
+    new Date("2024-06-10"),
+    new Date("2024-06-11"),
+    new Date("2024-06-12"),
+    new Date("2024-06-13"),
+    new Date("2024-06-14"),
+    new Date("2024-06-15"),
+    new Date("2024-06-16"),
+    new Date("2024-06-17"),
+    new Date("2024-06-18"),
+    new Date("2024-06-19"),
+    new Date("2024-06-20"),
+    new Date("2024-06-21"),
+    new Date("2024-06-22"),
+    new Date("2024-06-23"),
+    new Date("2024-06-24"),
+    new Date("2024-06-25"),
+    new Date("2024-06-26"),
+    new Date("2024-06-27"),
+    new Date("2024-06-28"),
+    new Date("2024-06-29"),
+    new Date("2024-06-30"),
+    new Date("2024-07-01"),
+  ];
+
+  const isDatePassed = (date: Date) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return date < today;
+  };
+
+  const isDateSelected = (date: Date) => {
+    return (
+      date.getDate() === dateSelected.getDate() &&
+      date.getMonth() === dateSelected.getMonth() &&
+      date.getFullYear() === dateSelected.getFullYear()
+    );
+  };
 
   return (
     <Background solid={true}>
       <View style={styles.container}>
         <BackButton goBack={() => navigation.navigate("Home")} />
         <View style={styles.scheduler}>
-          <View style={styles.days}>
-            <View>
-              <Text style={styles.dayNumber}>18</Text>
-              <Text style={styles.dayName}>Mo</Text>
-            </View>
-            <View>
-              <View style={styles.selectedDate}>
-                <View style={styles.selectedDateDot} />
-              </View>
-              <Text style={styles.dayNumberSelected}>19</Text>
-              <Text style={styles.dayNameSelected}>Tu</Text>
-            </View>
-            <View>
-              <Text style={styles.dayNumber}>20</Text>
-              <Text style={styles.dayName}>Wed</Text>
-            </View>
-            <View>
-              <Text style={styles.dayNumber}>21</Text>
-              <Text style={styles.dayName}>Thu</Text>
-            </View>
-            <View>
-              <Text style={styles.dayNumber}>22</Text>
-              <Text style={styles.dayName}>Fri</Text>
-            </View>
-            <View>
-              <Text style={styles.dayNumber}>23</Text>
-              <Text style={styles.dayName}>Sa</Text>
-            </View>
-            <View>
-              <Text style={styles.dayNumber}>24</Text>
-              <Text style={styles.dayName}>Su</Text>
-            </View>
-          </View>
+          <Days since={new Date("2024-06-01")} until={new Date("2024-07-01")} />
           <ScrollView
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
@@ -62,57 +89,289 @@ const Scheduler = ({ navigation }: Props) => {
             <View style={styles.timeline}>
               <Text style={styles.timelineHeader}>Schedule Today</Text>
               <View>
-                <Text style={styles.hour}>12:00 PM</Text>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <View>
+                    <Text style={styles.hour}>12:00 PM</Text>
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+                      height: 1,
+                      backgroundColor: "#94A3B8",
+                      marginLeft: 10,
+                    }}
+                  />
+                </View>
                 <View style={styles.slot}>
-                  <Text style={styles.slotDescription}>WOD</Text>
+                  <View style={styles.slotInfo}>
+                    <View style={styles.slotDescriptionContainer}>
+                      <Text style={styles.slotDescription}>WOD</Text>
+                      <Text style={styles.availableSlots}>15/30</Text>
+                    </View>
+
+                    <View style={styles.avatarsContainer}>
+                      <View style={styles.avatar}>
+                        <ImageBackground
+                          source={require("../assets/avatar.jpeg")}
+                          style={styles.avatarImage}
+                        />
+                      </View>
+                      <View style={styles.avatar}>
+                        <ImageBackground
+                          source={require("../assets/avatar.jpeg")}
+                          style={styles.avatarImage}
+                        />
+                      </View>
+                      <View style={styles.moreCircle}>
+                        <Text style={styles.moreNumber}>+13</Text>
+                      </View>
+                    </View>
+                    <View style={styles.bookButton}>
+                      <PlusIcon color={theme.colors.lightBackground} />
+                    </View>
+                  </View>
                 </View>
               </View>
               <View>
-                <Text style={styles.hour}>12:00 PM</Text>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <View>
+                    <Text style={styles.hour}>13:00 PM</Text>
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+                      height: 1,
+                      backgroundColor: "#94A3B8",
+                      marginLeft: 10,
+                    }}
+                  />
+                </View>
                 <View style={styles.slot}>
-                  <Text style={styles.slotDescription}>WOD</Text>
+                  <View style={styles.slotInfo}>
+                    <View style={styles.slotDescriptionContainer}>
+                      <Text style={styles.slotDescription}>WOD</Text>
+                      <Text style={styles.availableSlots}>20/30</Text>
+                    </View>
+                    <View style={styles.avatarsContainer}>
+                      <View style={styles.avatar}>
+                        <ImageBackground
+                          source={require("../assets/avatar.jpeg")}
+                          style={styles.avatarImage}
+                        />
+                      </View>
+                      <View style={styles.avatar}>
+                        <ImageBackground
+                          source={require("../assets/avatar.jpeg")}
+                          style={styles.avatarImage}
+                        />
+                      </View>
+                      <View style={styles.moreCircle}>
+                        <Text style={styles.moreNumber}>+20</Text>
+                      </View>
+                    </View>
+                    <View style={styles.bookButton}>
+                      <MinusIcon color={theme.colors.lightBackground} />
+                    </View>
+                  </View>
                 </View>
               </View>
               <View>
-                <Text style={styles.hour}>12:00 PM</Text>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <View>
+                    <Text style={styles.hour}>14:00 PM</Text>
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+                      height: 1,
+                      backgroundColor: "#94A3B8",
+                      marginLeft: 10,
+                    }}
+                  />
+                </View>
                 <View style={styles.slot}>
-                  <Text style={styles.slotDescription}>WOD</Text>
+                  <View style={styles.slotInfo}>
+                    <View style={styles.slotDescriptionContainer}>
+                      <Text style={styles.slotDescription}>WOD</Text>
+                      <Text style={styles.availableSlots}>7/30</Text>
+                    </View>
+                    <View style={styles.avatarsContainer}>
+                      <View style={styles.avatar}>
+                        <ImageBackground
+                          source={require("../assets/avatar.jpeg")}
+                          style={styles.avatarImage}
+                        />
+                      </View>
+                      <View style={styles.avatar}>
+                        <ImageBackground
+                          source={require("../assets/avatar.jpeg")}
+                          style={styles.avatarImage}
+                        />
+                      </View>
+                      <View style={styles.moreCircle}>
+                        <Text style={styles.moreNumber}>+5</Text>
+                      </View>
+                    </View>
+                    <View style={styles.bookButton}>
+                      <PlusIcon color={theme.colors.lightBackground} />
+                    </View>
+                  </View>
                 </View>
               </View>
               <View>
-                <Text style={styles.hour}>12:00 PM</Text>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <View>
+                    <Text style={styles.hour}>15:00 PM</Text>
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+                      height: 1,
+                      backgroundColor: "#94A3B8",
+                      marginLeft: 10,
+                    }}
+                  />
+                </View>
                 <View style={styles.slot}>
-                  <Text style={styles.slotDescription}>WOD</Text>
+                  <View style={styles.slotDescriptionContainerB}>
+                    <View>
+                      <Text style={styles.slotDescription}>WOD</Text>
+                      <Text style={styles.availableSlotsB}>0/30</Text>
+                    </View>
+                    <View style={styles.bookButton}>
+                      <PlusIcon color={theme.colors.lightBackground} />
+                    </View>
+                  </View>
                 </View>
               </View>
               <View>
-                <Text style={styles.hour}>12:00 PM</Text>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <View>
+                    <Text style={styles.hour}>16:00 PM</Text>
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+                      height: 1,
+                      backgroundColor: "#94A3B8",
+                      marginLeft: 10,
+                    }}
+                  />
+                </View>
                 <View style={styles.slot}>
-                  <Text style={styles.slotDescription}>WOD</Text>
+                  <View style={styles.slotDescriptionContainerB}>
+                    <View>
+                      <Text style={styles.slotDescription}>WOD</Text>
+                      <Text style={styles.availableSlotsB}>0/30</Text>
+                    </View>
+                    <View style={styles.bookButton}>
+                      <PlusIcon color={theme.colors.lightBackground} />
+                    </View>
+                  </View>
                 </View>
               </View>
               <View>
-                <Text style={styles.hour}>12:00 PM</Text>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <View>
+                    <Text style={styles.hour}>17:00 PM</Text>
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+                      height: 1,
+                      backgroundColor: "#94A3B8",
+                      marginLeft: 10,
+                    }}
+                  />
+                </View>
                 <View style={styles.slot}>
-                  <Text style={styles.slotDescription}>WOD</Text>
+                  <View style={styles.slotDescriptionContainerB}>
+                    <View>
+                      <Text style={styles.slotDescription}>WOD</Text>
+                      <Text style={styles.availableSlotsB}>0/30</Text>
+                    </View>
+                    <View style={styles.bookButton}>
+                      <PlusIcon color={theme.colors.lightBackground} />
+                    </View>
+                  </View>
                 </View>
               </View>
               <View>
-                <Text style={styles.hour}>12:00 PM</Text>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <View>
+                    <Text style={styles.hour}>18:00 PM</Text>
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+                      height: 1,
+                      backgroundColor: "#94A3B8",
+                      marginLeft: 10,
+                    }}
+                  />
+                </View>
                 <View style={styles.slot}>
-                  <Text style={styles.slotDescription}>WOD</Text>
+                  <View style={styles.slotDescriptionContainerB}>
+                    <View>
+                      <Text style={styles.slotDescription}>WOD</Text>
+                      <Text style={styles.availableSlotsB}>0/30</Text>
+                    </View>
+                    <View style={styles.bookButton}>
+                      <PlusIcon color={theme.colors.lightBackground} />
+                    </View>
+                  </View>
                 </View>
               </View>
               <View>
-                <Text style={styles.hour}>12:00 PM</Text>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <View>
+                    <Text style={styles.hour}>19:00 PM</Text>
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+                      height: 1,
+                      backgroundColor: "#94A3B8",
+                      marginLeft: 10,
+                    }}
+                  />
+                </View>
                 <View style={styles.slot}>
-                  <Text style={styles.slotDescription}>WOD</Text>
+                  <View style={styles.slotDescriptionContainerB}>
+                    <View>
+                      <Text style={styles.slotDescription}>WOD</Text>
+                      <Text style={styles.availableSlotsB}>0/30</Text>
+                    </View>
+                    <View style={styles.bookButton}>
+                      <PlusIcon color={theme.colors.lightBackground} />
+                    </View>
+                  </View>
                 </View>
               </View>
               <View>
-                <Text style={styles.hour}>12:00 PM</Text>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <View>
+                    <Text style={styles.hour}>20:00 PM</Text>
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+                      height: 1,
+                      backgroundColor: "#94A3B8",
+                      marginLeft: 10,
+                    }}
+                  />
+                </View>
                 <View style={styles.slot}>
-                  <Text style={styles.slotDescription}>WOD</Text>
+                  <View style={styles.slotDescriptionContainerB}>
+                    <View>
+                      <Text style={styles.slotDescription}>WOD</Text>
+                      <Text style={styles.availableSlotsB}>0/30</Text>
+                    </View>
+                    <View style={styles.bookButton}>
+                      <PlusIcon color={theme.colors.lightBackground} />
+                    </View>
+                  </View>
                 </View>
               </View>
             </View>
@@ -124,6 +383,13 @@ const Scheduler = ({ navigation }: Props) => {
 };
 
 const styles = StyleSheet.create({
+  scrollView: {
+    flexDirection: "row",
+  },
+  contentContainer: {
+    flexGrow: 1,
+    justifyContent: "space-between",
+  },
   container: {
     backgroundColor: theme.colors.lightBackground,
     flex: 1,
@@ -132,14 +398,14 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   scheduler: {
-    display: "flex",
     backgroundColor: "white",
-    height: 637,
+    height: "90%",
     width: "85%",
   },
   days: {
     display: "flex",
-    height: 80,
+    height: 120,
+    marginTop: 40,
     flexDirection: "row",
     width: "100%",
     justifyContent: "space-between",
@@ -157,6 +423,21 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: "Inter_400Regular",
     color: "#94A3B8",
+  },
+  dayNumberPassed: {
+    letterSpacing: 0.3,
+    lineHeight: 24,
+    fontSize: 18,
+    fontWeight: 600,
+    color: theme.colors.notActiveNavDark,
+  },
+  dayNamePassed: {
+    marginHorizontal: "auto",
+    letterSpacing: 0.3,
+    lineHeight: 26,
+    fontSize: 12,
+    fontFamily: "Inter_400Regular",
+    color: theme.colors.notActiveNavDark,
   },
   dayNumberSelected: {
     letterSpacing: 0.3,
@@ -193,41 +474,93 @@ const styles = StyleSheet.create({
     color: "#94A3B8",
   },
   slot: {
-    height: 60,
+    height: 90,
     width: 275,
     alignSelf: "flex-end",
     borderRadius: 4,
     backgroundColor: theme.colors.primary,
   },
+  slotDescriptionContainer: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    marginLeft: 12,
+  },
+  slotDescriptionContainerB: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginVertical: "auto",
+    marginLeft: 12,
+  },
   slotDescription: {
     letterSpacing: 0.3,
     marginVertical: "auto",
-    marginLeft: 12,
     lineHeight: 26,
     color: "white",
-    fontSize: 12,
+    fontSize: 18,
     fontWeight: 600,
   },
-  selectedDate: {
-    backgroundColor: theme.colors.selectedDate,
-    borderRadius: 16,
-    position: "absolute",
-    width: 50,
-    height: 87,
-    left: "50%",
-    top: 10,
-    transform: [{ translateX: -25 }, { translateY: -25 }],
-    zIndex: -1,
+  availableSlots: {
+    letterSpacing: 0.3,
+    lineHeight: 24,
+    color: "white",
+    fontSize: 13,
+    fontWeight: 400,
+    alignSelf: "center",
   },
-  selectedDateDot: {
-    backgroundColor: theme.colors.selectedDateText,
-    borderRadius: 4,
-    height: 6,
-    width: 6,
-    position: "absolute",
-    bottom: 12,
-    left: "50%",
-    transform: [{ translateX: -4 }],
+  availableSlotsB: {
+    letterSpacing: 0.3,
+    lineHeight: 24,
+    color: "white",
+    fontSize: 13,
+    marginHorizontal: "auto",
+    fontWeight: 400,
+  },
+  avatarsContainer: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  avatar: {
+    height: 40,
+    width: 40,
+    borderRadius: 20,
+    backgroundColor: "white",
+    marginLeft: -20,
+  },
+  avatarImage: {
+    margin: "auto",
+    height: 35,
+    width: 35,
+    borderRadius: 20,
+    overflow: "hidden",
+  },
+  slotInfo: {
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    height: "100%",
+  },
+  moreCircle: {
+    height: 40,
+    width: 40,
+    borderRadius: 20,
+    backgroundColor: "#909090",
+    lineHeight: 40,
+    marginLeft: -20,
+    textAlign: "center",
+  },
+  moreNumber: {
+    color: "white",
+    lineHeight: 40,
+    fontSize: 18,
+    margin: "auto",
+    fontWeight: 600,
+  },
+  bookButton: {
+    marginRight: 12,
   },
 });
 
