@@ -8,7 +8,7 @@ interface DaysProps {
   until: Date;
 }
 
-const Days = ({ since, until }: DaysProps) => {
+const DatePicker = ({ since, until }: DaysProps) => {
   const [dateSelected, setDateSelected] = useState(new Date());
 
   const isDatePassed = (date: Date) => {
@@ -75,4 +75,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Days;
+export default DatePicker;
