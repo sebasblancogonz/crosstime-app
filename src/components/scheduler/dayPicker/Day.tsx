@@ -1,17 +1,18 @@
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 import { theme } from "../../../core/theme";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 interface DayProps {
   passed?: boolean;
   date: Date;
   selected?: boolean;
+  isFirstDayOfMonth: boolean;
+  setDateSelected: (date: Date) => void;
 }
 
 const Day = (props: DayProps) => {
-  const { passed, date, selected } = props;
-
-  const isFirstDayOfMonth = date.getDate() === 1;
+  const { passed, date, selected, isFirstDayOfMonth, setDateSelected } = props;
 
   const dayNumberStyle = selected
     ? styles.dayNumberSelected
@@ -25,24 +26,6 @@ const Day = (props: DayProps) => {
     ? styles.dayNamePassed
     : styles.dayName;
 
-  const monthName = (date: Date) => {
-    const months = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-    return months[date.getMonth()];
-  };
-
   const dayName = (date: Date) => {
     const days = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
     return days[date.getDay()];
@@ -53,24 +36,30 @@ const Day = (props: DayProps) => {
   };
 
   return (
-    <>
-      {selected && (
-        <View style={styles.selectedDate}>
-          <View style={styles.selectedDateDot} />
+    <View style={styles.dayContainer}>
+      <TouchableOpacity onPress={() => setDateSelected(date)}>
+        {selected && (
+          <View style={styles.selectedDate}>
+            <View style={styles.selectedDateDot} />
+          </View>
+        )}
+        <View style={styles.dayContent}>
+          <Text style={dayNumberStyle}>{dayNumber(date)}</Text>
+          <Text style={dayNameStyle}>{dayName(date)}</Text>
         </View>
-      )}
-      {isFirstDayOfMonth && (
-        <Text style={styles.monthName}>{monthName(date)}</Text>
-      )}
-      <View style={{ width: 50, display: "flex" }}>
-        <Text style={dayNumberStyle}>{dayNumber(date)}</Text>
-        <Text style={dayNameStyle}>{dayName(date)}</Text>
-      </View>
-    </>
+      </TouchableOpacity>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  dayContainer: {
+    width: 50,
+    display: "flex",
+  },
+  dayContent: {
+    display: "flex",
+  },
   dayNumber: {
     letterSpacing: 0.3,
     marginHorizontal: "auto",
@@ -117,15 +106,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: "Inter_400Regular",
     color: theme.colors.selectedDateText,
-  },
-  monthName: {
-    textAlign: "center",
-    position: "absolute",
-    fontSize: 16,
-    color: theme.colors.secondaryGray,
-    marginVertical: 10,
-    width: 50,
-    top: -40,
   },
   selectedDate: {
     backgroundColor: theme.colors.selectedDate,

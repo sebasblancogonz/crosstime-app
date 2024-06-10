@@ -2,7 +2,7 @@ import React, { memo, useState } from "react";
 import { Text, StyleSheet, TouchableOpacity } from "react-native";
 import { emailValidator } from "../core/utils";
 import Background from "../components/Background";
-import BackButton from "../components/BackButton";
+import BackButton from "../components/buttons/BackButton";
 import Logo from "../components/Logo";
 import Header from "../components/Header";
 import TextInput from "../components/TextInput";

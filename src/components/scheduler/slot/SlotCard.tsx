@@ -13,9 +13,12 @@ interface SlotCardProps {
   users: number;
   maxUsers: number;
   sessionName: string;
+  hour: string;
+  minutes: string;
 }
 
-const SlotCard = ({ users, maxUsers, sessionName }: SlotCardProps) => {
+const SlotCard = (props: SlotCardProps) => {
+  const { users, maxUsers, sessionName, hour, minutes } = props;
   const [usersEnrolled, setUsersEnrolled] = useState(users);
   const [currentUserEnrolled, setCurrentUserEnrolled] = useState(false);
 
@@ -27,7 +30,7 @@ const SlotCard = ({ users, maxUsers, sessionName }: SlotCardProps) => {
     <>
       {usersEnrolled === 0 ? (
         <View>
-          <HourSeparator hour={"15"} minutes={"00"} />
+          <HourSeparator hour={hour} minutes={minutes} key={Math.random()} />
           <View style={styles.slot}>
             <View style={styles.slotDescriptionContainerB}>
               <View>
@@ -47,7 +50,7 @@ const SlotCard = ({ users, maxUsers, sessionName }: SlotCardProps) => {
         </View>
       ) : (
         <View>
-          <HourSeparator hour={"15"} minutes={"00"} />
+          <HourSeparator hour={hour} minutes={minutes} />
           <View style={styles.slot}>
             <View style={styles.slotInfo}>
               <View style={styles.slotDescriptionContainer}>
