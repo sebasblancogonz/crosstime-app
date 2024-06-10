@@ -81,7 +81,7 @@ const DatePicker = (props: DaysProps) => {
     index,
   });
 
-  const keyExtractor = (item, index) => item.toString() + index;
+  const keyExtractor = (item: Date, index: number) => item.toString() + index;
 
   const handleViewableItemsChanged = ({ viewableItems }) => {
     if (viewableItems.length > 0) {
@@ -93,28 +93,9 @@ const DatePicker = (props: DaysProps) => {
       if (firstVisibleMonth === lastVisibleMonth) {
         setCurrentMonth(firstVisibleMonth);
       } else {
-        // If multiple months are visible, show both months in the header
         setCurrentMonth(`${firstVisibleMonth} - ${lastVisibleMonth}`);
       }
     }
-  };
-
-  const animateHeader = (direction) => {
-    const startValue = direction === "right" ? 50 : -50;
-    translateX.setValue(startValue); // Start off-screen based on direction
-    opacity.setValue(0); // Start invisible
-    Animated.parallel([
-      Animated.timing(translateX, {
-        toValue: 0, // Move to its original position
-        duration: 300, // Duration of the animation
-        useNativeDriver: true,
-      }),
-      Animated.timing(opacity, {
-        toValue: 1, // Fade in
-        duration: 300, // Duration of the animation
-        useNativeDriver: true,
-      }),
-    ]).start();
   };
 
   return (
