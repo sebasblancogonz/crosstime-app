@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { StyleSheet, View, Dimensions, Text } from "react-native";
+import { StyleSheet, View, Dimensions, Text, Animated } from "react-native";
 import Day from "./Day";
 import {
   calculateDateObjects,
@@ -20,7 +20,10 @@ const DatePicker = (props: DaysProps) => {
   const [currentMonth, setCurrentMonth] = useState<string>("");
   const { since, until, dateSelected, setDateSelected } = props;
   const scrollViewRef = useRef<FlatList>(null);
-
+  const scrollX = useRef(new Animated.Value(0)).current;
+  const translateX = useRef(new Animated.Value(50)).current; // Start off-screen
+  const opacity = useRef(new Animated.Value(0)).current; // Start invisible
+  const previousScrollX = useRef(0).current;
   const dates = calculateDateObjects(since, until);
 
   const todayIndex = dates.findIndex((date) => {
@@ -66,7 +69,6 @@ const DatePicker = (props: DaysProps) => {
     <Day
       key={index}
       date={item}
-      isFirstDayOfMonth={index === 0 || item.getDate() === 1}
       passed={isDatePassed(item)}
       selected={isDateSelected(item, dateSelected)}
       setDateSelected={setDateSelected}
@@ -82,18 +84,45 @@ const DatePicker = (props: DaysProps) => {
   const keyExtractor = (item, index) => item.toString() + index;
 
   const handleViewableItemsChanged = ({ viewableItems }) => {
-    const firstVisibleItem = viewableItems[0]?.item;
-    if (firstVisibleItem) {
-      setCurrentMonth(monthName(firstVisibleItem));
+    if (viewableItems.length > 0) {
+      const firstVisibleItem = viewableItems[0].item;
+      const firstVisibleMonth = monthName(firstVisibleItem);
+      const lastVisibleItem = viewableItems[viewableItems.length - 1].item;
+      const lastVisibleMonth = monthName(lastVisibleItem);
+
+      if (firstVisibleMonth === lastVisibleMonth) {
+        setCurrentMonth(firstVisibleMonth);
+      } else {
+        // If multiple months are visible, show both months in the header
+        setCurrentMonth(`${firstVisibleMonth} - ${lastVisibleMonth}`);
+      }
     }
+  };
+
+  const animateHeader = (direction) => {
+    const startValue = direction === "right" ? 50 : -50;
+    translateX.setValue(startValue); // Start off-screen based on direction
+    opacity.setValue(0); // Start invisible
+    Animated.parallel([
+      Animated.timing(translateX, {
+        toValue: 0, // Move to its original position
+        duration: 300, // Duration of the animation
+        useNativeDriver: true,
+      }),
+      Animated.timing(opacity, {
+        toValue: 1, // Fade in
+        duration: 300, // Duration of the animation
+        useNativeDriver: true,
+      }),
+    ]).start();
   };
 
   return (
     <>
-      <View style={styles.stickyHeader}>
+      <Animated.View style={styles.stickyHeader}>
         <Text style={styles.stickyHeaderText}>{currentMonth}</Text>
-      </View>
-      <FlatList
+      </Animated.View>
+      <Animated.FlatList
         data={dates}
         renderItem={renderItem}
         keyExtractor={keyExtractor}

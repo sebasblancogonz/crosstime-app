@@ -38,6 +38,12 @@ const Scheduler = ({ navigation }: Props) => {
     return today;
   }
 
+  function endOfCurrentYear() {
+    const today = new Date();
+    today.setMonth(11, 31);
+    return today;
+  }
+
   return (
     <Background solid={true}>
       <View style={styles.container}>
@@ -45,7 +51,7 @@ const Scheduler = ({ navigation }: Props) => {
         <View style={styles.scheduler}>
           <DatePicker
             since={since()}
-            until={new Date("2024-08-02")}
+            until={endOfCurrentYear()}
             dateSelected={dateSelected}
             setDateSelected={setDateSelected}
           />

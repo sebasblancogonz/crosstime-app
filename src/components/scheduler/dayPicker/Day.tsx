@@ -7,12 +7,11 @@ interface DayProps {
   passed?: boolean;
   date: Date;
   selected?: boolean;
-  isFirstDayOfMonth: boolean;
   setDateSelected: (date: Date) => void;
 }
 
 const Day = (props: DayProps) => {
-  const { passed, date, selected, isFirstDayOfMonth, setDateSelected } = props;
+  const { passed, date, selected, setDateSelected } = props;
 
   const dayNumberStyle = selected
     ? styles.dayNumberSelected
