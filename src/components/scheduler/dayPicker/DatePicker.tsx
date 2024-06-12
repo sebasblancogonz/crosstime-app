@@ -20,10 +20,6 @@ const DatePicker = (props: DaysProps) => {
   const [currentMonth, setCurrentMonth] = useState<string>("");
   const { since, until, dateSelected, setDateSelected } = props;
   const scrollViewRef = useRef<FlatList>(null);
-  const scrollX = useRef(new Animated.Value(0)).current;
-  const translateX = useRef(new Animated.Value(50)).current; // Start off-screen
-  const opacity = useRef(new Animated.Value(0)).current; // Start invisible
-  const previousScrollX = useRef(0).current;
   const dates = calculateDateObjects(since, until);
 
   const todayIndex = dates.findIndex((date) => {

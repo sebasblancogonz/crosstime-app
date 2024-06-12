@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 30 + getStatusBarHeight(),
     left: 10,
+    zIndex: 1,
   },
   image: {
     width: 24,

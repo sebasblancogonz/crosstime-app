@@ -4,4 +4,6 @@ export { default as Register } from "./Register";
 export { default as ForgotPassword } from "./ForgotPassword";
 export { default as Dashboard } from "./Dashboard";
 export { default as Splash } from "./Splash";
+export { default as Scheduler } from "./Scheduler";
+export { default as Profile } from "./Profile";
 export { default as Exercises } from "./Exercises";

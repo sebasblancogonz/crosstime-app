@@ -1,12 +1,11 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Home, Dashboard, Exercises } from "../screens";
+import { Home, Dashboard, Exercises, Scheduler, Profile } from "../screens";
 import Workout from "../components/icons/Workout";
 import HomeIcon from "../components/icons/Home";
 import SearchIcon from "../components/icons/Search";
 import CalendarIcon from "../components/icons/Calendar";
 import AccountIcon from "../components/icons/Account";
 import { theme } from "../core/theme";
-import Scheduler from "../screens/Scheduler";
 
 const Tab = createBottomTabNavigator();
 
@@ -71,7 +70,7 @@ const Tabs = () => {
       />
       <Tab.Screen
         name="Account"
-        component={Exercises}
+        component={Profile}
         options={{
           headerShown: false,
           tabBarActiveTintColor: theme.colors.primary,
