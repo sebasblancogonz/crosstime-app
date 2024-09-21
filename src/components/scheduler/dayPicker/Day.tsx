@@ -2,6 +2,7 @@ import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 import { theme } from "../../../core/theme";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { DateTime } from "luxon";
 
 interface DayProps {
   passed?: boolean;

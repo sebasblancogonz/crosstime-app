@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Animated,
   ImageBackground,
   Platform,
   StyleSheet,
   View,
-  ScrollView,
   ActivityIndicator,
 } from "react-native";
 import { Text } from "react-native-paper";
@@ -14,7 +13,8 @@ import { theme } from "../core/theme";
 import Pencil from "../components/icons/Pencil";
 import BackButton from "../components/BackButton";
 import { Navigation } from "../types";
-import { MaterialIcons } from "@expo/vector-icons"; // You can use any icon library
+import { MaterialIcons } from "@expo/vector-icons";
+import * as Haptics from "expo-haptics";
 
 interface ProfileProps {
   navigation: Navigation;
@@ -29,6 +29,8 @@ const SPINNER_THRESHOLD = -100; // Adjust this value to set when the spinner app
 const Profile = ({ navigation }: ProfileProps) => {
   const profilePicture = require("../assets/avatar.jpeg");
   const heroImage = require("../assets/avatar.jpeg");
+  const [previousScrollY, setPreviousScrollY] = useState(0);
+  const [isArrowChanged, setIsArrowChanged] = useState(false);
 
   const scrollY = React.useRef(new Animated.Value(0)).current;
 
@@ -66,6 +68,25 @@ const Profile = ({ navigation }: ProfileProps) => {
     extrapolate: "clamp",
   });
 
+  const handleScroll = (event) => {
+    const offsetY = event.nativeEvent.contentOffset.y;
+
+    // Trigger haptic feedback when the arrow changes orientation
+    if (
+      (previousScrollY > ARROW_THRESHOLD && offsetY <= ARROW_THRESHOLD) ||
+      (previousScrollY <= ARROW_THRESHOLD && offsetY > ARROW_THRESHOLD)
+    ) {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+      setIsArrowChanged(true);
+    }
+
+    if (offsetY > ARROW_THRESHOLD && isArrowChanged) {
+      setIsArrowChanged(false)
+    }
+
+    setPreviousScrollY(offsetY);
+  };
+
   return (
     <Background solid={true}>
       <View style={styles.container}>
@@ -82,22 +103,29 @@ const Profile = ({ navigation }: ProfileProps) => {
             source={profilePicture}
           >
             <View style={styles.whiteMask} />
-            <Animated.View
-              style={[
-                styles.arrowContainer,
-                {
-                  opacity: arrowOpacity,
-                  transform: [{ rotate: arrowRotation }],
-                },
-              ]}
-            >
-              <MaterialIcons name="arrow-downward" size={24} color={"white"} />
-            </Animated.View>
-            <Animated.View
-              style={[styles.spinnerContainer, { opacity: spinnerOpacity }]}
-            >
-              <ActivityIndicator size="large" color={theme.colors.primary} />
-            </Animated.View>
+            {!isArrowChanged ? (
+              <Animated.View
+                style={[
+                  styles.arrowContainer,
+                  {
+                    opacity: arrowOpacity,
+                    transform: [{ rotate: arrowRotation }],
+                  },
+                ]}
+              >
+                <MaterialIcons
+                  name="arrow-downward"
+                  size={24}
+                  color={"white"}
+                />
+              </Animated.View>
+            ) : (
+              <Animated.View
+                style={[styles.spinnerContainer, { opacity: spinnerOpacity }]}
+              >
+                <ActivityIndicator size="small" color={theme.colors.lightBackground} />
+              </Animated.View>
+            )}
             <View style={styles.userOverview}>
               <ImageBackground source={heroImage} style={styles.avatarImage} />
               <Text style={styles.username}>User profile</Text>
@@ -112,7 +140,7 @@ const Profile = ({ navigation }: ProfileProps) => {
           contentContainerStyle={styles.scrollViewContent}
           onScroll={Animated.event(
             [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-            { useNativeDriver: false }
+            { useNativeDriver: false, listener: handleScroll }
           )}
           scrollEventThrottle={16}
         >
@@ -120,7 +148,6 @@ const Profile = ({ navigation }: ProfileProps) => {
             <Text style={styles.contentText}>
               Scroll down to see the header shrink
             </Text>
-            {/* More content to make scrolling possible */}
             {Array.from({ length: 30 }).map((_, index) => (
               <Text key={index} style={styles.contentText}>
                 Scrollable content {index + 1}
@@ -236,7 +263,7 @@ const styles = StyleSheet.create({
   },
   spinnerContainer: {
     position: "absolute",
-    top: 10,
+    top: 50,
     left: 0,
     right: 0,
     alignItems: "center",

@@ -13,12 +13,12 @@ interface SlotCardProps {
   users: number;
   maxUsers: number;
   sessionName: string;
-  hour: string;
-  minutes: string;
+  time: string;
+  slotId: string
 }
 
 const SlotCard = (props: SlotCardProps) => {
-  const { users, maxUsers, sessionName, hour, minutes } = props;
+  const { users, maxUsers, sessionName, time, slotId } = props;
   const [usersEnrolled, setUsersEnrolled] = useState(users);
   const [currentUserEnrolled, setCurrentUserEnrolled] = useState(false);
 
@@ -30,7 +30,7 @@ const SlotCard = (props: SlotCardProps) => {
     <>
       {usersEnrolled === 0 ? (
         <View>
-          <HourSeparator hour={hour} minutes={minutes} key={Math.random()} />
+          <HourSeparator time={time} key={Math.random()} />
           <View style={styles.slot}>
             <View style={styles.slotDescriptionContainerB}>
               <View>
@@ -44,13 +44,14 @@ const SlotCard = (props: SlotCardProps) => {
                 setCurrentUserEnrolled={setCurrentUserEnrolled}
                 usersEnrolled={usersEnrolled}
                 maxUsers={maxUsers}
+                slotId={slotId}
               />
             </View>
           </View>
         </View>
       ) : (
         <View>
-          <HourSeparator hour={hour} minutes={minutes} />
+          <HourSeparator time={time} />
           <View style={styles.slot}>
             <View style={styles.slotInfo}>
               <View style={styles.slotDescriptionContainer}>
@@ -68,6 +69,7 @@ const SlotCard = (props: SlotCardProps) => {
                 setCurrentUserEnrolled={setCurrentUserEnrolled}
                 usersEnrolled={usersEnrolled}
                 maxUsers={maxUsers}
+                slotId={slotId}
               />
             </View>
           </View>

@@ -1,12 +1,12 @@
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 
-const HourSeparator = ({ hour, minutes }) => {
+const HourSeparator = ({ time }) => {
   return (
     <View style={{ flexDirection: "row", alignItems: "center" }}>
       <View>
-        <Text style={styles.hour}>
-          {hour}:{minutes} PM
+        <Text style={styles.time}>
+          {time}
         </Text>
       </View>
       <View
@@ -22,7 +22,7 @@ const HourSeparator = ({ hour, minutes }) => {
 };
 
 const styles = StyleSheet.create({
-  hour: {
+  time: {
     letterSpacing: 0.3,
     lineHeight: 26,
     fontSize: 13,

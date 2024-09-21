@@ -1,3 +1,5 @@
+import { DateTime } from "luxon"
+
 export type Navigation = {
   navigate: (scene: string) => void;
 };
@@ -32,3 +34,22 @@ export type RegisterRequest = {
   password: string;
   role: string;
 };
+
+export type Slot = {
+  id: string,
+  capacity: number,
+  dateTime: string,
+  duration: number,
+  trainingType: TrainingType
+}
+
+export enum TrainingType {
+  FUNCTIONAL = "FUNCTIONAL",
+  WOD = "WOD",
+  WEIGHTLIFTING = "WEIGHTLIFTING",
+  GYMNASTICS = "GYMNASTICS",
+  PILATES = "PILATES",
+  YOGA = "YOGA",
+  SPINNING = "SPINNING",
+  BOXING = "BOXING"
+}

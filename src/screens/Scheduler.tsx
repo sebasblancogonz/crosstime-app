@@ -6,7 +6,8 @@ import { theme } from "../core/theme";
 import { ScrollView } from "react-native-gesture-handler";
 import BackButton from "../components/BackButton";
 import DatePicker from "../components/scheduler/dayPicker/DatePicker";
-import SlotCard from "../components/scheduler/slot/SlotCard";
+import { DateTime } from "luxon";
+import Slots from "../components/scheduler/slot/Slots";
 
 type Props = {
   navigation: Navigation;
@@ -14,24 +15,6 @@ type Props = {
 
 const Scheduler = ({ navigation }: Props) => {
   const [dateSelected, setDateSelected] = useState(new Date());
-
-  const startingHour = 6;
-  const endingHour = 22;
-
-  const slots = [];
-  for (let i = startingHour; i < endingHour; i++) {
-    slots.push(
-      <SlotCard
-        users={0}
-        maxUsers={30}
-        sessionName="WOD"
-        key={i}
-        hour={i.toString()}
-        minutes={"00"}
-      />
-    );
-  }
-
   function since() {
     const today = new Date();
     today.setDate(today.getDate() - 3);
@@ -59,7 +42,7 @@ const Scheduler = ({ navigation }: Props) => {
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
           >
-            <View style={styles.timeline}>{slots}</View>
+            <Slots dateSelected={dateSelected} navigation={navigation} />
           </ScrollView>
         </View>
       </View>
